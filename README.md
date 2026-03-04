@@ -141,12 +141,7 @@ C = [dOCV/dSOC, -1]
 
 MIT License - see [LICENSE](LICENSE) file.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- [NASA Prognostics Data Repository](https://data.nasa.gov/Electronics-and-Photovoltaics/Battery-Dataset/8jsk-6s2h)
-- [batteryDAT](https://github.com/SamrudhNelli/batteryDAT) library
-
-***
-
-Would you like me to add a results visualization section, expand the theory math, or customize any other sections?
-
+- [NASA Battery Dataset](https://data.nasa.gov/dataset/randomized-and-recommissioned-battery-dataset)
+- [batteryDAT](https://github.com/ImperialCollegeLondon/batteryDAT) library

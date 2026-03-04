@@ -1,29 +1,44 @@
 #!/bin/bash
-# run.sh - Automated pipeline for Battery SOC Estimator
 
-echo "🔋 Phase 1: Starting Digital Twin Extraction..."
-cd extract_parameters || { echo "Directory not found"; exit 1; }
-
-# Smart check for your local Python virtual environment
-if [ -d ".venv" ]; then
-    echo "-> Activating .venv..."
-    source .venv/bin/activate
-fi
-
-python extract_parameters.py
-if [ $? -ne 0 ]; then
-    echo "❌ Error: Python extraction failed. Halting pipeline."
+# 1. Check for Go
+if ! command -v go &> /dev/null; then
+    echo "❌ Go is not installed."
+    echo "👉 Install it using: sudo pacman -S go"
     exit 1
 fi
 
-echo -e "\n✅ Extraction complete. Passing ECM payload to Go..."
-cd ../src || { echo "Directory not found"; exit 1; }
+# 2. Check for Python
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Python is not installed."
+    echo "👉 Install it using: sudo pacman -S python"
+    exit 1
+fi
 
-echo "⚡ Phase 2: Running Real-Time BMS Simulation..."
+echo "✅ System dependencies verified."
+
+# 3. Setup Python Virtual Environment
+echo "🐍 Setting up Python environment..."
+cd extract_parameters
+# Create venv if it doesn't exist
+if [ ! -d ".venv" ]; then
+    python3 -m venv .venv
+fi
+source .venv/bin/activate
+echo "📦 Installing Python dependencies..."
+pip install --quiet pandas numpy
+python3 extract_parameters.py
+deactivate
+cd ..
+
+# 4. Run Go Estimator
+echo "🐹 Running Go SOC Estimator..."
+cd src
+# Ensure modules are ready
+if [ ! -f "go.mod" ]; then
+    go mod init battery_modelling/src
+fi
+go mod tidy
 go run main.go
-if [ $? -ne 0 ]; then
-    echo "❌ Error: Go simulation failed."
-    exit 1
-fi
+cd ..
 
-echo -e "\n🎉 Pipeline finished successfully!"
+echo "🏁 Pipeline execution finished."

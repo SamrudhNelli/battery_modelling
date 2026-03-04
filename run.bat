@@ -1,32 +1,44 @@
 @echo off
-REM run.bat - Automated pipeline for Battery SOC Estimator (Windows)
+SETLOCAL
 
-echo 🔋 Phase 1: Starting Digital Twin Extraction...
+:: 1. Check for Go
+where go >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo ❌ Go is not installed. 
+    echo 👉 Download it from: https://go.dev/dl/
+    pause
+    exit /b
+)
+
+:: 2. Check for Python
+where python >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo ❌ Python is not installed. 
+    echo 👉 Download it from: https://www.python.org/downloads/
+    pause
+    exit /b
+)
+
+echo ✅ System dependencies verified.
+
+:: 3. Setup Python Virtual Environment
+echo 🐍 Setting up Python environment...
 cd extract_parameters
-
-REM Smart check for Windows Python virtual environment
-if exist ".venv\Scripts\activate.bat" (
-    echo -^> Activating .venv...
-    call .venv\Scripts\activate.bat
+if not exist ".venv" (
+    python -m venv .venv
 )
-
+call .venv\Scripts\activate
+echo 📦 Installing Python dependencies...
+pip install --quiet pandas numpy
 python extract_parameters.py
-if %errorlevel% neq 0 (
-    echo ❌ Error: Python extraction failed. Halting pipeline.
-    exit /b %errorlevel%
-)
+call deactivate
+cd ..
 
-echo.
-echo ✅ Extraction complete. Passing ECM payload to Go...
-cd ..\src
-
-echo ⚡ Phase 2: Running Real-Time BMS Simulation...
+:: 4. Run Go Estimator
+echo 🐹 Running Go SOC Estimator...
+cd src
 go run main.go
-if %errorlevel% neq 0 (
-    echo ❌ Error: Go simulation failed.
-    exit /b %errorlevel%
-)
+cd ..
 
-echo.
-echo 🎉 Pipeline finished successfully!
+echo 🏁 Pipeline execution finished.
 pause
