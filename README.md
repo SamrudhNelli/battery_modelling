@@ -67,7 +67,7 @@ NeoRide_Battery_Modelling/
 - Beginning-of-Life (BoL) reference discharge: 3 674 data points, constant current ~2.52 A, 3 503 s duration  
 - Measured capacity Q_max = 2.452 Ah  
 
-Source: [NASA Prognostics Center of Excellence](https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/)
+Source: [NASA Prognostics Center of Excellence](https://data.nasa.gov/dataset/randomized-and-recommissioned-battery-dataset)
 
 ---
 
