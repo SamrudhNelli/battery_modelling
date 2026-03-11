@@ -1,8 +1,52 @@
+# Python
 __pycache__/
-*.pyc
-.ipynb_checkpoints/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
 *.egg-info/
 dist/
 build/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data
+*.csv
+!data/nasa_alt/.gitkeep
+
+# Outputs
+outputs/*.png
+!outputs/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# React / Node
+node_modules/
+neoride-frontend/dist/
+neoride-frontend/node_modules/
+neoride-frontend/.vite/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .env
-.venv/
+.env.local
+.env.production
+
+# Temp
+*.tmp
+*.temp
