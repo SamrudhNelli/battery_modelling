@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: neoride-battery-modelling
+    env: python
+    buildCommand: "pip install -r requirements.txt && pip install flask flask-cors && cd neoride-frontend && npm install && npm run build"
+    startCommand: "python app.py"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
